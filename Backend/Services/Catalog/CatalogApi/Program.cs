@@ -1,4 +1,6 @@
+using CatalogApi.Data;
 using CatalogApi.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//DB connection
+builder.Services.AddDbContext<CatalogContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default"), options => options.EnableRetryOnFailure()));
 
 //Repositories
 builder.Services.AddScoped<BrandRepository>();
@@ -17,6 +21,15 @@ builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ProductRepository>();
 
 var app = builder.Build();
+
+//migrate the db
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+
+	var context = services.GetRequiredService<CatalogContext>();
+	context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

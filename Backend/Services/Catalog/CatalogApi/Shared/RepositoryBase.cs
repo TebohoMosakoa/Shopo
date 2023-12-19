@@ -46,7 +46,7 @@ namespace CatalogApi.Shared
 		{
 			if(parameters.SearchTerm != null)
 			{
-				var entities = await _context.Set<T>().Where(x => x.Name.ToLower() == parameters.SearchTerm.ToLower()).OrderBy(x => x.DateCreated).ToListAsync();
+				var entities = await _context.Set<T>().Where(x => x.Name.ToLower() == parameters.SearchTerm.ToLower()).ToListAsync();
 
 				return PagedList<T>
 				.ToPagedList(entities, parameters.PageNumber, parameters.PageSize);
@@ -54,7 +54,7 @@ namespace CatalogApi.Shared
 
 			else
 			{
-				var entities = await _context.Set<T>().OrderBy(x => x.DateCreated).ToListAsync();
+				var entities = await _context.Set<T>().ToListAsync();
 				return PagedList<T>
 				.ToPagedList(entities, parameters.PageNumber, parameters.PageSize);
 			}
