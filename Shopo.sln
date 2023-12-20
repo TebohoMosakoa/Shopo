@@ -7,19 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{4F00
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{819EB0B7-9491-48DE-BC6C-0BF611E93692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogApi", "Backend\Services\Catalog\CatalogApi\CatalogApi.csproj", "{5FE17E1D-CEF6-4D5F-BBDC-213A59C3C7C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogApi", "Backend\Services\Catalog\CatalogApi\CatalogApi.csproj", "{5FE17E1D-CEF6-4D5F-BBDC-213A59C3C7C1}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{39EB5019-2F32-432E-8ED6-A26E127F51A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{5B8BF989-47AA-418D-953D-969AA17AB767}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apigateway", "Backend\Gateway\apigateway\apigateway.csproj", "{5ECCAFB5-442E-4B0B-81CF-68BEE138C289}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "apigateway", "Backend\Gateway\apigateway\apigateway.csproj", "{5ECCAFB5-442E-4B0B-81CF-68BEE138C289}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{2337707A-4836-4691-BE55-85BBFEAA7EFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dashboard", "Dashboard", "{6C01E348-5337-443C-9EA1-A4F3EEA372FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin", "Frontend\Dashboard\Admin\Admin.csproj", "{A8FFC655-C018-44F1-85B6-003B95F93F4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Frontend\Dashboard\Admin\Admin.csproj", "{A8FFC655-C018-44F1-85B6-003B95F93F4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

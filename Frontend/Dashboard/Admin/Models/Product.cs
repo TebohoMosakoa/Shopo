@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CatalogApi.Models
+namespace Admin.Models
 {
 	public class Product : EntityBase
 	{
