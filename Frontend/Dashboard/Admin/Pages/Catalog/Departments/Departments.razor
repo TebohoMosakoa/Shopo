@@ -1,4 +1,4 @@
-﻿@page "/Brands"
+﻿@page "/Departments"
 @using Admin.Models;
 @using Admin.Parameter;
 @using Admin.Services;
@@ -7,16 +7,16 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Brand List</h2>
-            <p>Here's a list of all the brands on record.</p>
+            <h2 class="content-title card-title">Department List</h2>
+            <p>Here's a list of all the departments on record.</p>
         </div>
         <div>
-            <a href="/add-brand" class="btn btn-primary btn-sm rounded">Create new</a>
+            <a href="/add-department" class="btn btn-primary btn-sm rounded">Create new</a>
         </div>
     </div>
     <div class="card mb-4">
         <div class="card-body">
-            @foreach (var brand in BrandList)
+            @foreach (var department in departments)
             {
                 <article class="itemlist">
                     <div class="row align-items-center">
@@ -26,12 +26,12 @@
                                     <img src="assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item">
                                 </div>
                                 <div class="info">
-                                    <h6 class="mb-0">@brand.Name</h6>
+                                    <h6 class="mb-0">@department.Name</h6>
                                 </div>
                             </a>
                         </div>
                         <div class="col-lg-3 col-sm-3 col-6 col-action text-end">
-                            <a href="/update-brand/@brand.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
+                            <a href="/update-department/@department.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
                                 <i class="material-icons md-edit"></i> Update
                             </a>
                             <a href="#" class="btn btn-sm font-sm btn-light rounded">
@@ -55,30 +55,30 @@
             </ul>
         </nav>
     </div>
-</section> 
+</section>
 <!-- content-main end// -->
 
 @code {
     [Inject]
-    private BrandRepository BrandService { get; set; }
-    private List<Brand> BrandList { get; set; } = new List<Brand>();
+    private DepartmentRepository DepartmentService { get; set; }
+    private List<Department> departments { get; set; } = new List<Department>();
     private MetaData MetaData { get; set; } = new MetaData();
-    private QueryStringParameters _brandParameters = new QueryStringParameters();
+    private QueryStringParameters _departmentParameters = new QueryStringParameters();
 
     protected async override Task OnInitializedAsync()
     {
-        await GetBrands();
+        await GetDepartments();
     }
 
-    private async Task GetBrands()
+    private async Task GetDepartments()
     {
-        var pagingResponse = await BrandService.GetAll("Brands", _brandParameters);
-        BrandList = pagingResponse.Items;
+        var pagingResponse = await DepartmentService.GetAll("Departments", _departmentParameters);
+        departments = pagingResponse.Items;
         MetaData = pagingResponse.MetaData;
     }
     private async Task SelectedPage(int page)
     {
-        _brandParameters.PageNumber = page;
-        await GetBrands();
+        _departmentParameters.PageNumber = page;
+        await GetDepartments();
     }
 }

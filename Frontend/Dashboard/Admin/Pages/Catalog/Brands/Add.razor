@@ -1,0 +1,56 @@
+﻿@page "/add-brand"
+@using Admin.Models;
+@using Admin.Services;
+
+<section class="content-main">
+    <div class="row">
+        <EditForm Model="_brand" OnSubmit="CreateBrand">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Create Brand</h2>
+                    <div>
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label">Brand title</label>
+                            <input type="text" placeholder="Type here" class="form-control" @bind="_brand.Name">
+                        </div>
+                    </div>
+                </div> <!-- card end// -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div>
+                            <label class="form-label">Images</label>
+                            <input class="form-control" type="file">
+                        </div>
+                    </div>
+                </div> <!-- card end// -->
+            </div>
+        </EditForm>
+    </div>
+</section>
+
+@code {
+    public Brand _brand;
+    [Inject]
+    private BrandRepository BrandService { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _brand = new Brand();
+    }
+
+	public async Task CreateBrand()
+	{
+		await BrandService.Add("Brands", _brand);
+		//_notification.Show();
+		NavigationManager.NavigateTo("/Brands");
+	}
+}

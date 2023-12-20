@@ -65,7 +65,7 @@ namespace Admin.Services.Shared
 				["pageNumber"] = parameters.PageNumber.ToString(),
 				["searchTerm"] = parameters.SearchTerm == null ? "" : parameters.SearchTerm
 			};
-			var response = await _client.GetAsync(QueryHelpers.AddQueryString($"{service}/", queryStringParam));
+			var response = await _client.GetAsync(QueryHelpers.AddQueryString($"{service}", queryStringParam));
 			var content = await response.Content.ReadAsStringAsync();
 			if (!response.IsSuccessStatusCode)
 			{
