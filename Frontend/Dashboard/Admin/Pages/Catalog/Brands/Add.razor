@@ -26,7 +26,7 @@
                     <div class="card-body">
                         <div>
                             <label class="form-label">Images</label>
-                            <input class="form-control" type="file">
+                            <ImageUpload OnChange="AssignImageUrl" />
                         </div>
                     </div>
                 </div> <!-- card end// -->
@@ -46,6 +46,8 @@
     {
         _brand = new Brand();
     }
+
+    private void AssignImageUrl(string imgUrl) => _brand.Image = imgUrl;
 
 	public async Task CreateBrand()
 	{

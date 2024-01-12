@@ -104,6 +104,20 @@
       ],
       "UpstreamPathTemplate": "/api/Products/{id}",
       "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
+    },
+    //Uploads
+    {
+      "DownstreamPathTemplate": "/api/Uploads",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "catalogapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Uploads",
+      "UpstreamHttpMethod": [ "POST" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
     }
   ],
   "GlobalConfiguration": {

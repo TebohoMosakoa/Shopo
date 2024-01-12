@@ -10,6 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="supabase-csharp" Version="0.15.0" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.2.23201" />
   </ItemGroup>
 
   <ItemGroup>

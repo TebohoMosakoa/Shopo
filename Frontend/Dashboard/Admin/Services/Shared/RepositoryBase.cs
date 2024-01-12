@@ -15,7 +15,7 @@ namespace Admin.Services.Shared
 		public RepositoryBase(HttpClient client)
 		{
 			_client = client;
-			_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; ;
+			_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; 
 		}
 
 		public async Task Add(string service, T entity)
@@ -93,5 +93,5 @@ namespace Admin.Services.Shared
 				throw new ApplicationException(postContent);
 			}
 		}
-	}
+    }
 }

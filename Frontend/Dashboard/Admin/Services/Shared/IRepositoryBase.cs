@@ -11,5 +11,5 @@ namespace Admin.Services.Shared
 		Task Add(string service, T entity);
 		Task Update(string service, T entity);
 		Task Delete(string service, int id);
-	}
+    }
 }
