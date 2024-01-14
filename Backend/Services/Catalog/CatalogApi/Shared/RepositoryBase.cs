@@ -25,11 +25,6 @@ namespace CatalogApi.Shared
 		public async Task<T> Delete(int id)
 		{
 			var entity = await _context.Set<T>().FindAsync(id);
-			if (entity == null)
-			{
-				return entity;
-			}
-
 			_context.Set<T>().Remove(entity);
 			await _context.SaveChangesAsync();
 

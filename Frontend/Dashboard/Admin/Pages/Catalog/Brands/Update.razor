@@ -1,6 +1,7 @@
 ﻿@page "/update-brand/{id}"
 @using Admin.Models;
 @using Admin.Services;
+@using Supabase;
 
 <section class="content-main">
     <div class="row">
@@ -24,10 +25,16 @@
             </div> <!-- card end// -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <div>
-                        <label class="form-label">Images</label>
-                        <input class="form-control" type="file">
-                    </div>
+                        <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
+                            <a class="itemside" href="#">
+                                <div class="left">
+                                    <img src="@_brand.Image" class="img-sm img-thumbnail" alt="Item">
+                                </div>
+                                <div class="info">
+                                    <InputFile OnChange="@HandleSelected" />
+                                </div>
+                            </a>
+                        </div>
                 </div>
             </div> <!-- card end// -->
         </div>
@@ -49,6 +56,40 @@
 	{
 		_brand = await BrandService.Get("Brands", Convert.ToInt32(Id));
 	}
+
+    private async Task HandleSelected(InputFileChangeEventArgs e)
+    {
+        Client client = new Client(
+        "https://ssofxpefzklnnhguydwz.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzb2Z4cGVmemtsbm5oZ3V5ZHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTAwNTA5MTIsImV4cCI6MjAwNTYyNjkxMn0.6j-lmzZ7_R3P5ODVKvXPgPhfT-Tn8u8a3PGmKsivi3A",
+        new SupabaseOptions
+            {
+                AutoRefreshToken = true,
+                AutoConnectRealtime = true,
+            });
+
+        var imageFile = e.File;
+        if (imageFile == null)
+            return;
+        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
+        using (var file = resizedFile.OpenReadStream(resizedFile.Size))
+        {
+            var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            var lastIndexOfDot = imageFile.Name.LastIndexOf('.');
+
+            string extension = imageFile.Name.Substring(lastIndexOfDot + 1);
+            Guid uniqueID = Guid.NewGuid();
+
+            string name = $"spane-{uniqueID}.{extension}";
+
+            await client.Storage.From("spane-images").Upload(
+                memoryStream.ToArray(), name);
+
+            string url = client.Storage.From("spane-images").GetPublicUrl(name, null);
+            _brand.Image = url;
+        }
+    }
 
 	public async Task UpdateBrand()
 	{

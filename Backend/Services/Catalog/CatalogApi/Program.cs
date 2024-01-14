@@ -19,7 +19,7 @@ builder.Services.AddDbContext<CatalogContext>(options => options.UseNpgsql(build
 builder.Services.AddScoped<BrandRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
