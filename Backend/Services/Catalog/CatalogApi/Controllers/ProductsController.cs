@@ -1,4 +1,6 @@
-﻿using CatalogApi.Models;
+﻿using AutoMapper;
+using CatalogApi.DTOs;
+using CatalogApi.Models;
 using CatalogApi.Parameters;
 using CatalogApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,11 @@ namespace CatalogApi.Controllers
 	public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _repository;
-        public ProductsController(ProductRepository repository)
+        private readonly IMapper _mapper;
+        public ProductsController(IProductRepository repository, IMapper mapper)
 		{
 			_repository = repository;
+            _mapper = mapper;
 		}
 
         [HttpGet]
@@ -49,25 +53,27 @@ namespace CatalogApi.Controllers
 
         // PUT: api/[controller]/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Product entity)
+        public async Task<IActionResult> Put(int id, [FromBody] ProductDTO entity)
         {
             if (id != entity.Id)
             {
                 return BadRequest();
             }
-            await _repository.Update(entity);
+            var newProduct = _mapper.Map<Product>(entity);
+            await _repository.Update(newProduct);
             return NoContent();
         }
 
         // POST: api/[controller]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Product item)
+        public async Task<IActionResult> Post([FromBody] ProductDTO item)
         {
             if (item == null)
                 return BadRequest();
-            await _repository.Add(item);
+            var newProduct = _mapper.Map<Product>(item);
+            await _repository.Add(newProduct);
 
-            return Created("", item);
+            return Created("", newProduct);
         }
 
         // DELETE: api/[controller]/5

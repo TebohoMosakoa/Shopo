@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CatalogApi.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20240114113519_noTags")]
-    partial class noTags
+    [Migration("20240124132131_RelationshipDefinition")]
+    partial class RelationshipDefinition
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,32 @@ namespace CatalogApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Nike"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Adidas"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Puma"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Reebok"
+                        });
                 });
 
             modelBuilder.Entity("CatalogApi.Models.Category", b =>
@@ -62,6 +88,32 @@ namespace CatalogApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Sweaters"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Pants"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Jackets"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "T-Shirts"
+                        });
                 });
 
             modelBuilder.Entity("CatalogApi.Models.Department", b =>
@@ -82,6 +134,32 @@ namespace CatalogApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Men"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Women"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Toddler"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Kids"
+                        });
                 });
 
             modelBuilder.Entity("CatalogApi.Models.Product", b =>
@@ -132,6 +210,21 @@ namespace CatalogApi.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            CategoryId = 1,
+                            Color = "Blue",
+                            DepartmentId = 1,
+                            Description = "Nike Sweater",
+                            Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg",
+                            Name = "Nike Sweater",
+                            Price = 100.0,
+                            Size = "M"
+                        });
                 });
 
             modelBuilder.Entity("CatalogApi.Models.Product", b =>

@@ -18,7 +18,15 @@ namespace CatalogApi.Repositories
         public async Task<Product> Add(Product entity)
         {
             _context.Products.Add(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
             return entity;
         }
 
@@ -63,6 +71,9 @@ namespace CatalogApi.Repositories
             else
             {
                 var entities = await _context.Products
+                    .Include(x => x.Brand)
+                    .Include(x => x.Category)
+                    .Include(x => x.Department)
                     .ToListAsync();
                 return PagedList<Product>
                 .ToPagedList(entities, parameters.PageNumber, parameters.PageSize);

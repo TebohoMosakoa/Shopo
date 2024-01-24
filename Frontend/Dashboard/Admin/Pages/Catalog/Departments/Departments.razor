@@ -1,4 +1,5 @@
 ﻿@page "/Departments"
+@using Admin.Components
 @using Admin.Models;
 @using Admin.Parameter;
 @using Admin.Services;
@@ -23,7 +24,7 @@
                         <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
                             <a class="itemside" href="#">
                                 <div class="left">
-                                    <img src="assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item">
+                                    <img src="@department.Image" class="img-sm img-thumbnail" alt="Item">
                                 </div>
                                 <div class="info">
                                     <h6 class="mb-0">@department.Name</h6>
@@ -44,16 +45,7 @@
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
     <div class="pagination-area mt-30 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-            </ul>
-        </nav>
+        <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
     </div>
 </section>
 <!-- content-main end// -->
