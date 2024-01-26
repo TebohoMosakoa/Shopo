@@ -1,0 +1,83 @@
+﻿@using Admin.Services;
+<div class="modal @_modalClass" tabindex="-1" role="dialog" style="display:@_modalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Success</h5>
+                <button type="button" class="close" @onclick="Hide" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to Delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm font-sm rounded btn-brand" @onclick="Delete">Delete</button>
+                <button type="button" class="btn btn-sm font-sm btn-light rounded" data-dismiss="modal" @onclick="Hide">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public String Service { get; set; }
+    [Parameter]
+    public int Id { get; set; }
+    private string _modalDisplay;
+    private string _modalClass;
+    private bool _showBackdrop;
+
+    [Inject]
+    public NavigationManager Navigation { get; set; }
+
+    [Inject]
+    private BrandRepository BrandService { get; set; }
+    [Inject]
+    private IProductRepository ProductRepository { get; set; }
+    [Inject]
+    private CategoryRepository CategoryRepository { get; set; }
+    [Inject]
+    private DepartmentRepository DepartmentRepository { get; set; }
+
+    public async Task Delete()
+    {
+        if(Service == "Brands")
+        {
+            await BrandService.Delete(Service, Id);
+            Hide();
+        }
+        else if(Service == "Category")
+        {
+            await CategoryRepository.Delete(Service, Id);
+            Hide();
+        }
+        else if (Service == "Department")
+        {
+            await DepartmentRepository.Delete(Service, Id);
+            Hide();
+        }
+        else
+        {
+            await ProductRepository.Delete(Id);
+            Hide();
+        }
+    }
+
+    public void Show()
+    {
+        _modalDisplay = "block;";
+        _modalClass = "show";
+        _showBackdrop = true;
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        _modalDisplay = "none;";
+        _modalClass = "";
+        _showBackdrop = false;
+        StateHasChanged();
+        Navigation.NavigateTo($"/{Service}");
+    }
+}

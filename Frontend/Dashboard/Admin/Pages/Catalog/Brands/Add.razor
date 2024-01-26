@@ -1,4 +1,5 @@
 ﻿@page "/add-brand"
+@using Admin.Components;
 @using Admin.Models;
 @using Admin.Services;
 @using Supabase;
@@ -33,10 +34,12 @@
             </div>
         </EditForm>
     </div>
+    <SuccessNotification @ref="_notification" />
 </section>
 
 @code {
     private Brand _brand = new Brand();
+    private SuccessNotification _notification;
     [Inject]
     private BrandRepository BrandService { get; set; }
     [Inject]
@@ -79,7 +82,7 @@
 	public async Task CreateBrand()
 	{
 		await BrandService.Add("Brands", _brand);
-		//_notification.Show();
+		_notification.Show();
 		NavigationManager.NavigateTo("/Brands");
 	}
 }

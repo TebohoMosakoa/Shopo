@@ -1,4 +1,5 @@
 ﻿@page "/update-brand/{id}"
+@using Admin.Components;
 @using Admin.Models;
 @using Admin.Services;
 @using Supabase;
@@ -38,8 +39,9 @@
                 </div>
             </div> <!-- card end// -->
         </div>
-         </EditForm>        
+        </EditForm>        
     </div>
+    <SuccessNotification @ref="_notification"/>
 </section>
 
 @code {
@@ -48,6 +50,7 @@
 	private BrandRepository BrandService { get; set; }
 	[Parameter]
 	public String Id { get; set; }
+    private SuccessNotification _notification;
 
 	[Inject]
 	public NavigationManager NavigationManager { get; set; }
@@ -94,6 +97,7 @@
 	public async Task UpdateBrand()
 	{
 		await BrandService.Update("Brands", _brand);
+        _notification.Show();
         NavigationManager.NavigateTo("/Brands");
 	}
 }

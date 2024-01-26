@@ -35,10 +35,11 @@
                             <a href="/update-category/@category.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
                                 <i class="material-icons md-edit"></i> Update
                             </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded">
+                            <a @onclick="Delete" class="btn btn-sm font-sm btn-light rounded">
                                 <i class="material-icons md-delete_forever"></i> Delete
                             </a>
                         </div>
+                        <DeleteConfirmation @ref="deleteConfirmation" Id="@category.Id" Service="Categories" />
                     </div> <!-- row .// -->
                 </article> <!-- itemlist  .// -->
             }
@@ -51,6 +52,7 @@
 <!-- content-main end// -->
 
 @code {
+    private DeleteConfirmation deleteConfirmation;
     [Inject]
     private CategoryRepository CategoryService { get; set; }
     private List<Category> CategoryList { get; set; } = new List<Category>();
@@ -72,5 +74,9 @@
     {
         _categoryParameters.PageNumber = page;
         await GetCategories();
+    }
+    void Delete()
+    {
+        deleteConfirmation.Show();
     }
 }

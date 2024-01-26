@@ -35,10 +35,11 @@
                             <a href="/update-department/@department.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
                                 <i class="material-icons md-edit"></i> Update
                             </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded">
+                            <a @onclick="Delete" class="btn btn-sm font-sm btn-light rounded">
                                 <i class="material-icons md-delete_forever"></i> Delete
                             </a>
                         </div>
+                        <DeleteConfirmation @ref="deleteConfirmation" Id="@department.Id" Service="Departments" />
                     </div> <!-- row .// -->
                 </article> <!-- itemlist  .// -->
             }
@@ -51,6 +52,7 @@
 <!-- content-main end// -->
 
 @code {
+    private DeleteConfirmation deleteConfirmation;
     [Inject]
     private DepartmentRepository DepartmentService { get; set; }
     private List<Department> departments { get; set; } = new List<Department>();
@@ -72,5 +74,9 @@
     {
         _departmentParameters.PageNumber = page;
         await GetDepartments();
+    }
+    void Delete()
+    {
+        deleteConfirmation.Show();
     }
 }

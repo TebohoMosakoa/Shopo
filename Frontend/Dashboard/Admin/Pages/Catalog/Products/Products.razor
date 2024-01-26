@@ -42,10 +42,11 @@
                             <a href="/update-product/@product.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
                                 <i class="material-icons md-edit"></i> Update
                             </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded">
+                            <a @onclick="Delete" class="btn btn-sm font-sm btn-light rounded">
                                 <i class="material-icons md-delete_forever"></i> Delete
                             </a>
                         </div>
+                        <DeleteConfirmation @ref="deleteConfirmation" Id="@product.Id" Service="Products" />
                     </div> <!-- row .// -->
                 </article> <!-- itemlist  .// -->
             }
@@ -58,6 +59,7 @@
 <!-- content-main end// -->
 
 @code {
+    private DeleteConfirmation deleteConfirmation;
     [Inject]
     private IProductRepository ProductService { get; set; }
     private List<Product> products { get; set; } = new List<Product>();
@@ -79,5 +81,9 @@
     {
         _productParameters.PageNumber = page;
         await GetProducts();
+    }
+    void Delete()
+    {
+        deleteConfirmation.Show();
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/add-product"
+@using Admin.Components;
 @using Admin.DTOs;
 @using Admin.Models;
 @using Admin.Parameter;
@@ -85,6 +86,7 @@
             </div>
         </EditForm>
     </div>
+    <SuccessNotification @ref="_notification"/>
 </section>
 
 @code {
@@ -92,6 +94,8 @@
     protected IMapper _mapper { get; set; }
     private Product _product;
     private ProductDTO product;
+
+    private SuccessNotification _notification;
 
     private List<Brand> brands;
     private List<Category> categories;
@@ -153,7 +157,7 @@
     {
         product = _mapper.Map<ProductDTO>(_product);
         await ProductRepository.Add(product);
-        //_notification.Show();
+        _notification.Show();
         NavigationManager.NavigateTo("/Products");
     }
 

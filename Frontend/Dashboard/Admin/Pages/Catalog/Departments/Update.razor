@@ -1,4 +1,5 @@
 ﻿@page "/update-department/{id}"
+@using Admin.Components;
 @using Admin.Models;
 @using Admin.Services;
 @using Supabase;
@@ -40,6 +41,7 @@
             </div>
         </EditForm>
     </div>
+    <SuccessNotification @ref="_notification" />
 </section>
 
 @code {
@@ -48,7 +50,7 @@
 	private DepartmentRepository DepartmentService { get; set; }
 	[Parameter]
 	public String Id { get; set; }
-
+    private SuccessNotification _notification;
 	[Inject]
 	public NavigationManager NavigationManager { get; set; }
 
@@ -94,6 +96,7 @@
 	public async Task UpdateDepartment()
 	{
 		await DepartmentService.Update("Departments", _department);
+        _notification.Show();
 		NavigationManager.NavigateTo("/Departments");
 	}
 }
