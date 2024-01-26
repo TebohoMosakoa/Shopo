@@ -2,6 +2,6 @@
 {
 	public class Brand : EntityBase
 	{
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }

@@ -25,7 +25,6 @@ builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-
 var app = builder.Build();
 
 //migrate the db

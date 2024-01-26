@@ -5,6 +5,15 @@ networks:
     driver: bridge
 
 services:
+  basketdb:
+    container_name: basketdb
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+
   Shopo_DB:
     container_name: Shopo_DB
     image: postgres:latest
@@ -15,6 +24,34 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=CatalogDb
+    networks:
+      - dev
+
+  accountapi:
+    container_name: accountapi
+    image: ${DOCKER_REGISTRY-}accountapi
+    build:
+      context: .
+      dockerfile: Backend/Services/Accounts/AccountApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionString=Host=Shopo_DB;port=5432;database=AccountDb;username=postgres;password=postgres;Pooling=true;"
+    depends_on:
+      - Shopo_DB
+    networks:
+      - dev
+
+  basketapi:
+    container_name: basketapi
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Backend/Services/Baskets/BasketApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "CacheSettings:ConnectionString=basketdb:6379"
+    depends_on:
+      - basketdb
     networks:
       - dev
 
