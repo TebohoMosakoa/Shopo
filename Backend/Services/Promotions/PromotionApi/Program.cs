@@ -19,6 +19,15 @@ builder.Services.AddScoped<IPromotionRepository, PromotionRepository>();
 
 var app = builder.Build();
 
+//migrate the db
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<PromotionContext>();
+    context.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

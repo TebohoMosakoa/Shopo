@@ -48,7 +48,16 @@ namespace PromotionApi.Repositories
         {
             if (parameters.SearchTerm != null)
             {
-                var entities = await _context.Promotions.Where(x => x.Name.ToLower() == parameters.SearchTerm.ToLower())
+                var entities = await _context.Promotions.Where(x => x.Name.ToLower().Contains(parameters.SearchTerm.ToLower()))
+                    .ToListAsync();
+
+                return PagedList<Promotion>
+                .ToPagedList(entities, parameters.PageNumber, parameters.PageSize);
+            }
+
+            if (parameters.Code != null)
+            {
+                var entities = await _context.Promotions.Where(x => x.Name.ToLower().Contains(parameters.SearchTerm.ToLower()))
                     .ToListAsync();
 
                 return PagedList<Promotion>

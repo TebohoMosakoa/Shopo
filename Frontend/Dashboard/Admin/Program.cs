@@ -1,6 +1,5 @@
 using Admin;
 using Admin.Services;
-using Admin.Services.Shared;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Tewr.Blazor.FileReader;
 
@@ -13,6 +12,7 @@ builder.Services.AddFileReaderService(o => o.UseWasmSharedBuffer = true);
 builder.Services.AddScoped<BrandRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 await builder.Build().RunAsync();

@@ -1,4 +1,4 @@
-﻿namespace PromotionApi.Models
+﻿namespace Admin.Models
 {
     public class Promotion : EntityBase
     {
