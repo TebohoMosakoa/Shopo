@@ -59,7 +59,7 @@
 
 @code {
     [Inject]
-    private ProductRepository ProductService { get; set; }
+    private IProductRepository ProductService { get; set; }
     private List<Product> products { get; set; } = new List<Product>();
     private MetaData MetaData { get; set; } = new MetaData();
     private QueryStringParameters _productParameters = new QueryStringParameters();
@@ -71,7 +71,7 @@
 
     private async Task GetProducts()
     {
-        var pagingResponse = await ProductService.GetAll("Products", _productParameters);
+        var pagingResponse = await ProductService.GetAll(_productParameters);
         products = pagingResponse.Items;
         MetaData = pagingResponse.MetaData;
     }

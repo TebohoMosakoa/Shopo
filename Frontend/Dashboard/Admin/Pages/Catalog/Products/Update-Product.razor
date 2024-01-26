@@ -1,4 +1,4 @@
-﻿@page "/add-product"
+﻿@page "/update-product/{id}"
 @using Admin.DTOs;
 @using Admin.Models;
 @using Admin.Parameter;
@@ -8,16 +8,30 @@
 
 <section class="content-main">
     <div class="row">
-        <EditForm Model="_product" OnSubmit="CreateProduct">
+        <EditForm Model="_product" OnSubmit="UpdateProduct">
             <div class="col-9">
                 <div class="content-header">
-                    <h2 class="content-title">Create Product</h2>
+                    <h2 class="content-title">Update Product</h2>
                     <div>
-                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Create</button>
+                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Update</button>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
+                            <a class="itemside" href="#">
+                                <div class="left">
+                                    <img src="@_product.Image" class="img-sm img-thumbnail" alt="Item">
+                                </div>
+                                <div class="info">
+                                    <InputFile OnChange="@HandleSelected" />
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- card end// -->
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="mb-4">
@@ -51,7 +65,7 @@
                             <InputSelect class="form-control" @bind-Value="_product.BrandId">
                                 @foreach (var item in brands)
                                 {
-                                    <option value="@item.Id">@item.Name</option>
+                                        <option value="@item.Id">@item.Name</option>
                                 }
                             </InputSelect>
                         </div>
@@ -60,7 +74,7 @@
                             <InputSelect class="form-control" @bind-Value="_product.CategoryId">
                                 @foreach (var item in categories)
                                 {
-                                        <option value="@item.Id">@item.Name</option>
+                                            <option value="@item.Id">@item.Name</option>
                                 }
                             </InputSelect>
                         </div>
@@ -69,19 +83,12 @@
                             <InputSelect class="form-control" @bind-Value="_product.DepartmentId">
                                 @foreach (var item in departments)
                                 {
-                                    <option value="@item.Id">@item.Name</option>
+                                        <option value="@item.Id">@item.Name</option>
                                 }
                             </InputSelect>
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div>
-                            <InputFile OnChange="@HandleSelected" />
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
             </div>
         </EditForm>
     </div>
@@ -92,7 +99,8 @@
     protected IMapper _mapper { get; set; }
     private Product _product;
     private ProductDTO product;
-
+    [Parameter]
+    public String Id { get; set; }
     private List<Brand> brands;
     private List<Category> categories;
     private List<Department> departments;
@@ -110,6 +118,7 @@
 
     protected async override Task OnInitializedAsync()
     {
+        _product = await ProductRepository.Get(Convert.ToInt32(Id));
         await GetBrands();
         await GetCategories();
         await GetDepartments();
@@ -149,10 +158,10 @@
         }
     }
 
-    public async Task CreateProduct()
+    public async Task UpdateProduct()
     {
         product = _mapper.Map<ProductDTO>(_product);
-        await ProductRepository.Add(product);
+        await ProductRepository.Update(product);
         //_notification.Show();
         NavigationManager.NavigateTo("/Products");
     }

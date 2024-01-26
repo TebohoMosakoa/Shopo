@@ -8,10 +8,10 @@ namespace CatalogApi
     {
         public AppMapperProfile()
         {
-            CreateMap<BrandDTO, Brand>();
-            CreateMap<CategoryDTO, Category>();
-            CreateMap<DepartmentDTO, Department>();
-            CreateMap<ProductDTO, Product>();
+            CreateMap<BrandDTO, Brand>().ReverseMap();
+            CreateMap<CategoryDTO, Category>().ReverseMap();
+            CreateMap<DepartmentDTO, Department>().ReverseMap();
+            CreateMap<ProductDTO, Product>().ReverseMap();
         }
     }
 }

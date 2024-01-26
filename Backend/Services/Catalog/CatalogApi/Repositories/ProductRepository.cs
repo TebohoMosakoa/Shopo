@@ -41,10 +41,11 @@ namespace CatalogApi.Repositories
 
         public async Task<Product> Get(int id)
         {
-            return (Product)_context.Products.Where(x => x.Id == id)
+            return await _context.Products.Where(x => x.Id == id)
                 .Include(x => x.Brand)
                 .Include(x => x.Category)
-                .Include(x => x.Department);
+                .Include(x => x.Department)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Product> Update(Product entity)
