@@ -57,7 +57,7 @@ namespace PromotionApi.Repositories
 
             if (parameters.Code != null)
             {
-                var entities = await _context.Promotions.Where(x => x.Name.ToLower().Contains(parameters.SearchTerm.ToLower()))
+                var entities = await _context.Promotions.Where(x => x.Code.ToLower().Contains(parameters.Code.ToLower()))
                     .ToListAsync();
 
                 return PagedList<Promotion>

@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PromotionApi.Models
+﻿namespace Admin.Models
 {
-    public class Product : EntityBase
+    public class PromotionProduct : EntityBase
     {
         public double Price { get; set; }
         public String Code { get; set; }

@@ -14,5 +14,6 @@ builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IPromotionProductRepository, PromotionProductRepository>();
 
 await builder.Build().RunAsync();

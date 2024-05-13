@@ -2,6 +2,7 @@
 {
     public class QueryStringParameters
     {
+        public Int32? PromotionId { get; set; }
         public String? SearchTerm { get; set; }
         public String? Code { get; set; }
         const int maxPageSize = 50;

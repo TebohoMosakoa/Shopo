@@ -175,6 +175,20 @@
       ],
       "UpstreamPathTemplate": "/api/Promotions/{id}",
       "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
+    },
+    //Promotions Products
+    {
+      "DownstreamPathTemplate": "/api/PromotionsProducts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "promotionapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/PromotionsProducts",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
     }
   ],
   "GlobalConfiguration": {

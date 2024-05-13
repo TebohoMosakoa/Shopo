@@ -64,7 +64,9 @@ namespace Admin.Services
             var queryStringParam = new Dictionary<String, String>
             {
                 ["pageNumber"] = parameters.PageNumber.ToString(),
-                ["searchTerm"] = parameters.SearchTerm == null ? "" : parameters.SearchTerm
+                ["searchTerm"] = parameters.SearchTerm == null ? "" : parameters.SearchTerm,
+                ["promotionId"] = parameters.PromotionId.ToString() == null ? "" : parameters.PromotionId.ToString(),
+                ["code"] = parameters.Code == null ? "" : parameters.Code
             };
             var response = await _client.GetAsync(QueryHelpers.AddQueryString($"Products", queryStringParam));
             var content = await response.Content.ReadAsStringAsync();

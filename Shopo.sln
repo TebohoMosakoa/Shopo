@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountApi", "Backend\Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketApi", "Backend\Services\Baskets\BasketApi\BasketApi.csproj", "{9B5F2AF8-968F-4F12-9E75-3B9A4033939F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionApi", "Backend\Services\Promotions\PromotionApi\PromotionApi.csproj", "{64945B1F-1A85-4B28-B18F-EEF689514862}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromotionApi", "Backend\Services\Promotions\PromotionApi\PromotionApi.csproj", "{64945B1F-1A85-4B28-B18F-EEF689514862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

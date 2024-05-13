@@ -26,6 +26,10 @@
                             <input type="text" placeholder="Type here" class="form-control" @bind="_product.Name">
                         </div>
                         <div class="mb-4">
+                            <label class="form-label">Product Code</label>
+                            <input type="number" placeholder="Type here" class="form-control" @bind="_product.Code">
+                        </div>
+                        <div class="mb-4">
                             <label class="form-label">Product Price</label>
                             <input type="number" placeholder="Type here" class="form-control" @bind="_product.Price">
                         </div>
@@ -92,14 +96,14 @@
 @code {
     [Inject]
     protected IMapper _mapper { get; set; }
-    private Product _product;
-    private ProductDTO product;
+    private Product _product = new Product();
+    private ProductDTO product = new ProductDTO();
 
     private SuccessNotification _notification;
 
-    private List<Brand> brands;
-    private List<Category> categories;
-    private List<Department> departments;
+    private List<Brand> brands = new List<Brand>();
+    private List<Category> categories = new List<Category>();
+    private List<Department> departments = new List<Department>();
     [Inject]
     private IProductRepository ProductRepository { get; set; }
     [Inject]
@@ -117,6 +121,9 @@
         await GetBrands();
         await GetCategories();
         await GetDepartments();
+        _product.BrandId = brands.First().Id;
+        _product.CategoryId = categories.First().Id;
+        _product.DepartmentId = departments.First().Id;
     }
 
     private async Task HandleSelected(InputFileChangeEventArgs e)
@@ -155,6 +162,7 @@
 
     public async Task CreateProduct()
     {
+        _product.Image = "Image.jpg";
         product = _mapper.Map<ProductDTO>(_product);
         await ProductRepository.Add(product);
         _notification.Show();

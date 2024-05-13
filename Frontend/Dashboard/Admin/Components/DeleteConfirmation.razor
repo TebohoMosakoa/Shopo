@@ -47,18 +47,19 @@
             await BrandService.Delete(Service, Id);
             Hide();
         }
-        else if(Service == "Category")
+        else if(Service == "Categorys")
         {
             await CategoryRepository.Delete(Service, Id);
             Hide();
         }
-        else if (Service == "Department")
+        else if (Service == "Departments")
         {
             await DepartmentRepository.Delete(Service, Id);
             Hide();
         }
         else
         {
+            Service = "Products";
             await ProductRepository.Delete(Id);
             Hide();
         }

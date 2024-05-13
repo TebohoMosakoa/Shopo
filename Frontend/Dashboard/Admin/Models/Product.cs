@@ -8,8 +8,7 @@ namespace Admin.Models
 		public string Description { get; set; }
 		public string Size { get; set; }
 		public string Color { get; set; }
-		//public List<string> Tags { get; set; }
-
+		public string Code { get; set; }
 		public int BrandId { get; set; }
 		public Brand Brand { get; set; }
 		public int CategoryId { get; set; }

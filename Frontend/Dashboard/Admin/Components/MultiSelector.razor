@@ -1,0 +1,77 @@
+﻿@using Admin.Models;
+
+ <article class="itemlist">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5 col-sm-5 col-5 flex-grow-1 col-name">
+                            @foreach (var product in notSelected)
+                            {
+                                <a class="itemside" @onclick="@(() => Select(product))">
+                                                <div class="float-end">
+                                                    <img src="@product.Image" class="img-sm img-thumbnail" alt="Item">
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0" style="color: orangered">@product.Name</h6>
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0"><span>Code : @product.Code</span></h6>
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0"><span>@product.Category</span></h6>
+                                                </div>
+                                </a>
+                            }
+                        </div>
+                        <div class="col-lg-1 col-sm-1 col-1 flex-grow-1 col-name">
+                            <button type="button" class="btn btn-md rounded font-sm hover-up" @onclick="SelectAll">>></button>
+                            <button type="button" class="btn btn-md rounded font-sm hover-up" @onclick="DeselectAll">@removeAll</button>
+                        </div>
+                        <div class="col-lg-5 col-sm-5 col-5 flex-grow-1 col-name">
+                            @foreach (var product in selected)
+                            {
+                                <a class="itemside" @onclick="@(() => Deselect(product))">
+                                                <div class="float-end">
+                                                    <img src="@product.Image" class="img-sm img-thumbnail" alt="Item">
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0" style="color: orangered">@product.Name</h6>
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0"><span>Code : @product.Code</span></h6>
+                                                </div>
+                                                <div class="info">
+                                                    <h6 class="mb-0"><span>@product.Category</span></h6>
+                                                </div>
+                                </a>
+                            }
+                        </div>
+                    </div> <!-- row .// -->
+</article> <!-- itemlist  .// -->
+
+@code {
+    private String removeAll = "<<";
+    [Parameter]
+    public List<PromotionProduct> selected { get; set; } = new List<PromotionProduct>();
+    [Parameter]
+    public List<PromotionProduct> notSelected { get; set; } = new List<PromotionProduct>();
+
+    public void Select(PromotionProduct product)
+    {
+        notSelected.Remove(product);
+        selected.Add(product);
+    }
+    public void Deselect(PromotionProduct product)
+    {
+        notSelected.Remove(product);
+        selected.Add(product);
+    }
+    public void SelectAll()
+    {
+        notSelected.Clear();
+        selected.AddRange(notSelected);
+    }
+    public void DeselectAll()
+    {
+        notSelected.AddRange(selected);
+        selected.Clear();
+    }
+}

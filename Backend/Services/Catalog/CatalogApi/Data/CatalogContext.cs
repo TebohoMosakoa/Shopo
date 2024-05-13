@@ -53,7 +53,8 @@ namespace CatalogApi.Data
                 { 
                     Id = 1, 
                     Name = "Nike Sweater", 
-                    Price = 100,
+                    Price = 1000,
+                    Code = "1000",
                     Description = "Nike Sweater",
                     Size = "M",
                     Color = "Blue",
@@ -61,6 +62,38 @@ namespace CatalogApi.Data
                     CategoryId= 1,
                     DepartmentId = 1,
                     Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg" }
+            );
+            modelBuilder.Entity<Product>().HasData(
+                new Product
+                {
+                    Id = 2,
+                    Name = "Adidas Sweater",
+                    Price = 100,
+                    Code = "1001",
+                    Description = "Nike Sweater",
+                    Size = "M",
+                    Color = "Blue",
+                    BrandId = 2,
+                    CategoryId = 1,
+                    DepartmentId = 2,
+                    Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg"
+                }
+            );
+            modelBuilder.Entity<Product>().HasData(
+                new Product
+                {
+                    Id = 3,
+                    Name = "Puma Sweater",
+                    Price = 1000,
+                    Code = "1003",
+                    Description = "Puma Sweater",
+                    Size = "M",
+                    Color = "Blue",
+                    BrandId = 3,
+                    CategoryId = 1,
+                    DepartmentId = 1,
+                    Image = "https://ssofxpefzklnnhguydwz.supabase.co/storage/v1/object/public/spane-images/spane-0c56a70a-3fae-44d4-ac55-ae3a5b665a00.jpg"
+                }
             );
         }
 

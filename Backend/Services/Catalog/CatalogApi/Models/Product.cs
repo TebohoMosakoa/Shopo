@@ -5,7 +5,8 @@ namespace CatalogApi.Models
 	public class Product : EntityBase
 	{
 		public double Price { get; set; }
-		public string Description { get; set; }
+        public String Code { get; set; }
+        public string Description { get; set; }
 		public string Size { get; set; }
 		public string Color { get; set; }
 		public int BrandId { get; set; }

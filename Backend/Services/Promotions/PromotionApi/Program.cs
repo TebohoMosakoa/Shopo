@@ -16,6 +16,7 @@ builder.Services.AddDbContext<PromotionContext>(options => options.UseNpgsql(bui
 
 //Repositories
 builder.Services.AddScoped<IPromotionRepository, PromotionRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
