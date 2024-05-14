@@ -1,5 +1,33 @@
 {
   "Routes": [
+    //Accounts API
+    //Authentication
+    {
+      "DownstreamPathTemplate": "/api/Accounts/Registration",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accountapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Accounts/Registration",
+      "UpstreamHttpMethod": [ "POST" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Accounts/Login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accountapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Accounts/Login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
     //Catalog API
     //Brands
     {
