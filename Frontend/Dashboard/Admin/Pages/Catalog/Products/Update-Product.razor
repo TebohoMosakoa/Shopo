@@ -7,99 +7,102 @@
 @using AutoMapper;
 @using Supabase;
 
-<section class="content-main">
-    <div class="row">
-        <EditForm Model="_product" OnSubmit="UpdateProduct">
-            <div class="col-9">
-                <div class="content-header">
-                    <h2 class="content-title">Update Product</h2>
-                    <div>
-                        <button class="btn btn-md rounded font-sm hover-up" type="submit">Update</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
-                            <a class="itemside" href="#">
-                                <div class="left">
-                                    <img src="@_product.Image" class="img-sm img-thumbnail" alt="Item">
-                                </div>
-                                <div class="info">
-                                    <InputFile OnChange="@HandleSelected" />
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <label class="form-label">Product title</label>
-                            <input type="text" placeholder="Type here" class="form-control" @bind="_product.Name">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Product title</label>
-                            <input type="text" placeholder="Type here" class="form-control" @bind="_product.Code">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Product Price</label>
-                            <input type="number" placeholder="Type here" class="form-control" @bind="_product.Price">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Product description</label>
-                            <textarea type="text" placeholder="Type here" class="form-control" @bind="_product.Description"/>
-                        </div>
-                        <div class="mb-4">
-                            <div class="col-6">
-                                <label class="form-label">Product size</label>
-                                <input type="text" placeholder="Type here" class="form-control" @bind="_product.Size">
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label">Product color</label>
-                                <input type="text" placeholder="Type here" class="form-control" @bind="_product.Color">
-                            </div>                            
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-label">Brand <span>*</span></label>
-                            <InputSelect class="form-control" @bind-Value="_product.BrandId">
-                                @foreach (var item in brands)
-                                {
-                                        <option value="@item.Id">@item.Name</option>
-                                }
-                            </InputSelect>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Category <span>*</span></label>
-                            <InputSelect class="form-control" @bind-Value="_product.CategoryId">
-                                @foreach (var item in categories)
-                                {
-                                            <option value="@item.Id">@item.Name</option>
-                                }
-                            </InputSelect>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Department <span>*</span></label>
-                            <InputSelect class="form-control" @bind-Value="_product.DepartmentId">
-                                @foreach (var item in departments)
-                                {
-                                        <option value="@item.Id">@item.Name</option>
-                                }
-                            </InputSelect>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </EditForm>
-    </div>
-    <SuccessNotification @ref="_notification" />
-</section>
+<h2 class="content-title">Create Brand</h2>
 
+<div class="row">
+    <EditForm Model="_product" OnSubmit="UpdateProduct">
+        <div class="row">
+            <div>
+                <a href="/brands" class="btn btn-secondary btn-sm mx-3">Cancel</a>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-sm" type="submit">Create</button>
+            </div>
+        </div>
+        <br />
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <label class="form-label">Product title</label>
+                        <input type="text" placeholder="Type here" class="form-control" @bind="_product.Name">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <label class="form-label">Product Code</label>
+                        <input type="number" placeholder="Type here" class="form-control" @bind="_product.Code">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <label class="form-label">Product Price</label>
+                        <input type="number" placeholder="Type here" class="form-control" @bind="_product.Price">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="form-label">Product description</label>
+                        <textarea type="text" placeholder="Type here" class="form-control" @bind="_product.Description" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <label class="form-label">Product size</label>
+                        <input type="text" placeholder="Type here" class="form-control" @bind="_product.Size">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <label class="form-label">Product color</label>
+                        <input type="text" placeholder="Type here" class="form-control" @bind="_product.Color">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="form-label">Brand <span>*</span></label>
+                        <InputSelect class="form-control" @bind-Value="_product.BrandId">
+                            @foreach (var item in brands)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="form-label">Category <span>*</span></label>
+                        <InputSelect class="form-control" @bind-Value="_product.CategoryId">
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="form-label">Department <span>*</span></label>
+                        <InputSelect class="form-control" @bind-Value="_product.DepartmentId">
+                            @foreach (var item in departments)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <InputFile OnChange="@HandleSelected" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+    <SuccessNotification @ref="_notification" />
+</div>
 
 @code {
     [Inject]

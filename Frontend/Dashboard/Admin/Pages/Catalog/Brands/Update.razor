@@ -4,45 +4,42 @@
 @using Admin.Services;
 @using Supabase;
 
-<section class="content-main">
-    <div class="row">
+<h2 class="content-title">Update Brand</h2>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
         <EditForm Model="_brand" OnSubmit="UpdateBrand">
-			<div class="col-9">
-            <div class="content-header">
-                <h2 class="content-title">Update Brand</h2>
+            <div class="row">
                 <div>
-                    <button class="btn btn-md rounded font-sm hover-up" type="submit">Update</button>
+                    <a href="/brands" class="btn btn-secondary btn-sm mx-3">Cancel</a>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-sm" type="submit">Update</button>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="mb-4">
-                        <label class="form-label">Brand title</label>
-                        <input type="text" placeholder="Type here" class="form-control" @bind="_brand.Name">
-                    </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label class="form-label">Brand title</label>
+                    <input type="text" placeholder="Type here" class="form-control" @bind="_brand.Name">
                 </div>
-            </div> <!-- card end// -->
-            <div class="card mb-4">
-                <div class="card-body">
-                        <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
-                            <a class="itemside" href="#">
-                                <div class="left">
-                                    <img src="@_brand.Image" class="img-sm img-thumbnail" alt="Item">
-                                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="left">
+                          <img src="@_brand.Image" class="img-sm img-thumbnail" alt="Item">
+                    </div>
                                 <div class="info">
                                     <InputFile OnChange="@HandleSelected" />
                                 </div>
-                            </a>
-                        </div>
                 </div>
-            </div> <!-- card end// -->
-        </div>
-        </EditForm>        
+            </div>
+        </EditForm>
     </div>
-    <SuccessNotification @ref="_notification"/>
-</section>
+    <SuccessNotification @ref="_notification" />
+</div>
+
 
 @code {
 	private Brand _brand;

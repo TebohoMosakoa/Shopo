@@ -4,52 +4,69 @@
 @using Admin.Parameter;
 @using Admin.Services;
 
-<!--Content-->
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Category List</h2>
-            <p>Here's a list of all the categories on record.</p>
+<h1 class="h3 mb-2 text-gray-800">Category List</h1>
+<p>Here's a list of all the categories on record.</p>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="float-left">
+            <a href="/add-category" class="btn btn-primary btn-sm">Create new</a>
         </div>
-        <div>
-            <a href="/add-category" class="btn btn-primary btn-sm rounded">Create new</a>
+        <div class="float-right">
+            <!-- Topbar Search -->
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-body">
-            @foreach (var category in CategoryList)
-            {
-                <article class="itemlist">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-sm-3 col-6 flex-grow-1 col-name">
-                            <a class="itemside" href="#">
-                                <div class="left">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in CategoryList)
+                    {
+                        <tr>
+                            <td>
+                                <div class="dropdown-list-image mr-3">
                                     <img src="@category.Image" class="img-sm img-thumbnail" alt="Item">
                                 </div>
-                                <div class="info">
-                                    <h6 class="mb-0">@category.Name</h6>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-sm-3 col-6 col-action text-end">
-                            <a href="/update-category/@category.Id.ToString()" class="btn btn-sm font-sm rounded btn-brand">
-                                <i class="material-icons md-edit"></i> Update
-                            </a>
-                            <a @onclick="Delete" class="btn btn-sm font-sm btn-light rounded">
-                                <i class="material-icons md-delete_forever"></i> Delete
-                            </a>
-                        </div>
-                        <DeleteConfirmation @ref="deleteConfirmation" Id="@category.Id" Service="Categories" />
-                    </div> <!-- row .// -->
-                </article> <!-- itemlist  .// -->
-            }
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
-    <div class="pagination-area mt-30 mb-50">
-        <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+                            </td>
+                            <td>
+                                @category.Name
+                            </td>
+                            <td>
+                                <a href="/update-category/@category.Id.ToString()" class="btn btn-primary">
+                                    <i class="material-icons md-edit"></i> Update
+                                </a>
+                                <a @onclick="Delete" class="btn btn-danger">
+                                    <i class="material-icons md-delete_forever"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="float-right">
+            <div class="pagination-area mt-30 mb-50">
+                <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+            </div>
+        </div>
     </div>
-</section>
-<!-- content-main end// -->
+</div>
 
 @code {
     private DeleteConfirmation deleteConfirmation;
