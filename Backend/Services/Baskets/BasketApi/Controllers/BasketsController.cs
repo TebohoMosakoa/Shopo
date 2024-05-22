@@ -1,5 +1,8 @@
-﻿using BasketApi.Models;
+﻿using AutoMapper;
+using BasketApi.Models;
 using BasketApi.Repositories;
+using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -11,10 +14,14 @@ namespace BasketApi.Controllers
     public class BasketsController : ControllerBase
     {
         private readonly IBasketRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public BasketsController(IBasketRepository repository)
+        public BasketsController(IBasketRepository repository, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
         [HttpGet("{userName}", Name = "GetBasket")]
@@ -29,21 +36,7 @@ namespace BasketApi.Controllers
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
         {
-            // Communicate with PRomotion.Grpc and calculate prices of products after promotion % is removed
-            //foreach (var item in basket.Items)
-            //{
-            //    //var promotion = await _promotionGrpcService.GetPromotion(item.ProductId);
-            //    if (promotion.IsActive && promotion != null)
-            //    {
-            //        item.Price -= ((item.Price * promotion.Percentage) / 100);
-            //    }
-
-            //}
-            // Communicate with Discount.Grpc and calculate lastest prices of products into sc
-            //var coupon = await _discountGrpcService.GetDiscount(basket.UserName);
-            //basket.TotalPrice -= coupon.Amount;
-
-            return Ok(await _repository.UpdateBasket(basket));
+           return Ok(await _repository.UpdateBasket(basket));
         }
 
         [HttpDelete("{userName}", Name = "DeleteBasket")]
@@ -52,6 +45,26 @@ namespace BasketApi.Controllers
         {
             await _repository.DeleteBasket(userName);
             return Ok();
+        }
+
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+        {
+            var basket = await _repository.GetBasket(basketCheckout.UserName);
+            if(basket == null)
+            {
+                return BadRequest();
+            }
+
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.TotalPrice = basket.TotalPrice;
+            await _publishEndpoint.Publish(eventMessage);
+
+            await _repository.DeleteBasket(basketCheckout.UserName);
+
+            return Accepted();
         }
     }
 }

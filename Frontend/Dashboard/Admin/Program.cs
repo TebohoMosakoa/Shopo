@@ -2,6 +2,7 @@ using Admin;
 using Admin.Helpers;
 using Admin.Services;
 using Admin.Services.Authentication;
+using Admin.Services.Profile;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -20,9 +21,8 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<BrandRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IPromotionProductRepository, PromotionProductRepository>();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();

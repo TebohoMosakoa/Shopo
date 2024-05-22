@@ -95,7 +95,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <InputFile OnChange="@HandleSelected" />
+                        <InputFile OnChange="@HandleSelected" multiple/>
                     </div>                    
                 </div>
             </div>
@@ -105,6 +105,7 @@
 </div>
 
 @code {
+    string? status;
     [Inject]
     protected IMapper _mapper { get; set; }
     private Product _product = new Product();
@@ -139,6 +140,7 @@
 
     private async Task HandleSelected(InputFileChangeEventArgs e)
     {
+        Int32 i = 1;
         Client client = new Client(
         "https://ssofxpefzklnnhguydwz.supabase.co",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzb2Z4cGVmemtsbm5oZ3V5ZHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTAwNTA5MTIsImV4cCI6MjAwNTYyNjkxMn0.6j-lmzZ7_R3P5ODVKvXPgPhfT-Tn8u8a3PGmKsivi3A",
@@ -148,32 +150,52 @@
                 AutoConnectRealtime = true,
             });
 
-        var imageFile = e.File;
-        if (imageFile == null)
-            return;
-        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
-        using (var file = resizedFile.OpenReadStream(resizedFile.Size))
+        foreach (var image in e.GetMultipleFiles(e.FileCount))
         {
-            var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
-            var lastIndexOfDot = imageFile.Name.LastIndexOf('.');
+            status += "\nReading file: " + image.Name;
+            _ = InvokeAsync(StateHasChanged);
 
-            string extension = imageFile.Name.Substring(lastIndexOfDot + 1);
-            Guid uniqueID = Guid.NewGuid();
+            var imageFile = image;
+            if (imageFile == null)
+                return;
+            var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
+            using (var file = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                var lastIndexOfDot = imageFile.Name.LastIndexOf('.');
 
-            string name = $"spane-{uniqueID}.{extension}";
+                string extension = imageFile.Name.Substring(lastIndexOfDot + 1);
+                Guid uniqueID = Guid.NewGuid();
 
-            await client.Storage.From("spane-images").Upload(
-                memoryStream.ToArray(), name);
+                string name = $"spane-{uniqueID}.{extension}";
 
-            string url = client.Storage.From("spane-images").GetPublicUrl(name, null);
-            _product.Image = url;
+                await client.Storage.From("spane-images").Upload(
+                    memoryStream.ToArray(), name);
+
+                string url = client.Storage.From("spane-images").GetPublicUrl(name, null);
+                switch (i)
+                {
+                    case 2:
+                        _product.Image2 = url;
+                        break;
+                    case 3:
+                        _product.Image3 = url;
+                        break;
+                    case 4:
+                        _product.Image4 = url;
+                        break;
+                    default:
+                        _product.Image1 = url;
+                        break;
+                }
+                i++;
+            }
         }
     }
 
     public async Task CreateProduct()
     {
-        _product.Image = "Image.jpg";
         product = _mapper.Map<ProductDTO>(_product);
         await ProductRepository.Add(product);
         _notification.Show();

@@ -1,0 +1,107 @@
+﻿@page "/Users"
+@using Admin.Components;
+@using Admin.Models;
+@using Admin.Parameter;
+@using Admin.Services.Profile;
+
+<h1 class="h3 mb-2 text-gray-800">Users</h1>
+<p>Here's a list of all the users on record.</p>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="float-left">
+            <a href="/add-user" class="btn btn-primary btn-sm">Create new</a>
+        </div>
+        <div class="float-right">
+            <!-- Topbar Search -->
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in users)
+                    {
+                        <tr>
+                            <td>
+                                <div class="dropdown-list-image mr-3">
+                                    <img src="" class="img-sm img-thumbnail" alt="Item">
+                                </div>
+                            </td>
+                            <td>
+                                <h6 class="mb-0" style="color: orangered">@user.Name</h6>
+                            </td>
+                            <td>
+                                <h6 class="mb-0">@user.Surname</h6>
+                            </td>
+                            <td>
+                                <h6 class="mb-0">@user.Email</h6>
+                            </td>
+                            <td>
+                                <a href="/update-user/@user.Id.ToString()" class="btn btn-primary">
+                                    <i class="material-icons md-edit"></i> Update
+                                </a>
+                                <a @onclick="Delete" class="btn btn-danger">
+                                    <i class="material-icons md-delete_forever"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="float-right">
+        <div class="pagination-area mt-30 mb-50">
+            <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private DeleteConfirmation deleteConfirmation;
+    [Inject]
+    private IProfileRepository _service { get; set; }
+    private List<AppUser> users { get; set; } = new List<AppUser>();
+    private MetaData MetaData { get; set; } = new MetaData();
+    private QueryStringParameters _userParameters = new QueryStringParameters();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetUsers();
+    }
+
+    private async Task GetUsers()
+    {
+        var pagingResponse = await _service.GetAll(_userParameters);
+        users = pagingResponse.Items;
+        MetaData = pagingResponse.MetaData;
+    }
+    private async Task SelectedPage(int page)
+    {
+        _userParameters.PageNumber = page;
+        await GetUsers();
+    }
+    void Delete()
+    {
+        deleteConfirmation.Show();
+    }
+}

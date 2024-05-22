@@ -25,7 +25,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=UserDb
       - POSTGRES_DB=CatalogDb
-      - POSTGRES_DB=PromotionDb
+      - POSTGRES_DB=OrdersDb
     networks:
       - dev
 
@@ -70,20 +70,6 @@ services:
       - Shopo_DB
     networks:
       - dev
-  
-  promotionapi:
-    container_name: promotionapi
-    image: ${DOCKER_REGISTRY-}promotionapi
-    build:
-      context: .
-      dockerfile: Backend/Services/Promotions/PromotionApi/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionString=Host=Shopo_DB;port=5432;database=PromotionDb;username=postgres;password=postgres;Pooling=true;"
-    depends_on:
-      - Shopo_DB
-    networks:
-      - dev
 
   apigateway:
     container_name: apigateway
@@ -97,3 +83,25 @@ services:
       - "8000:80"
     networks:
       - dev
+
+  orderapi:
+    container_name: orderapi
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Backend/Services/Odering/Orders/OrderApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionString=Host=Shopo_DB;port=5432;database=OrdersDb;username=postgres;password=postgres;Pooling=true;"
+    depends_on:
+      - Shopo_DB
+    networks:
+      - dev
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"

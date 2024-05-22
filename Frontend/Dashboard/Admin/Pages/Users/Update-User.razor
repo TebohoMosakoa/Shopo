@@ -1,0 +1,101 @@
+﻿@page "/update-user/{id}"
+@using Admin.Components;
+@using Admin.DTOs;
+@using Admin.Services.Profile;
+@using Supabase;
+
+<h2 class="content-title">Update User</h2>
+
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    </div>
+                    <EditForm Model="_profile" OnValidSubmit="UpdateUser" class="card card-body bg-light mt-5">
+                        <DataAnnotationsValidator />
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" @bind="_profile.Name"
+                                       placeholder="First Name">
+                                <ValidationMessage For="@(() => _profile.Name)" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" @bind="_profile.Surname"
+                                       placeholder="Last Name">
+                                <ValidationMessage For="@(() => _profile.Surname)" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-user" @bind="_profile.Email"
+                                   placeholder="Email Address">
+                            <ValidationMessage For="@(() => _profile.Email)" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">Update User</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ProfileDTO _profile;
+    [Inject]
+    private IProfileRepository _service { get; set; }
+    [Parameter]
+    public String Id { get; set; }
+    private SuccessNotification _notification;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        _profile = await _service.Get(Id);
+    }
+
+    private async Task HandleSelected(InputFileChangeEventArgs e)
+    {
+        Client client = new Client(
+        "https://ssofxpefzklnnhguydwz.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzb2Z4cGVmemtsbm5oZ3V5ZHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTAwNTA5MTIsImV4cCI6MjAwNTYyNjkxMn0.6j-lmzZ7_R3P5ODVKvXPgPhfT-Tn8u8a3PGmKsivi3A",
+        new SupabaseOptions
+            {
+                AutoRefreshToken = true,
+                AutoConnectRealtime = true,
+            });
+
+        var imageFile = e.File;
+        if (imageFile == null)
+            return;
+        var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500);
+        using (var file = resizedFile.OpenReadStream(resizedFile.Size))
+        {
+            var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            var lastIndexOfDot = imageFile.Name.LastIndexOf('.');
+
+            string extension = imageFile.Name.Substring(lastIndexOfDot + 1);
+            Guid uniqueID = Guid.NewGuid();
+
+            string name = $"spane-{uniqueID}.{extension}";
+
+            await client.Storage.From("spane-images").Upload(
+                memoryStream.ToArray(), name);
+
+            string url = client.Storage.From("spane-images").GetPublicUrl(name, null);
+            //_brand.Image = url;
+        }
+    }
+
+    public async Task UpdateUser()
+    {
+        await _service.Update(_profile);
+        //_notification.Show();
+        NavigationManager.NavigateTo("/Users");
+    }
+}
