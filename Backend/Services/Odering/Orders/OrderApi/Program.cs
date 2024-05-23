@@ -1,10 +1,13 @@
 using EventBus.Messages.Common;
 using MassTransit;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Order.Application;
 using Order.Infrastructure;
 using Order.Infrastructure.Persistence;
 using OrderApi.Consumers;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +37,6 @@ builder.Services.AddMassTransit(c =>
             });
         });
     });
-
-builder.Services.AddScoped<BasketCheckoutConsumer>();
 
 var app = builder.Build();
 

@@ -3,6 +3,7 @@ using Admin.Helpers;
 using Admin.Services;
 using Admin.Services.Authentication;
 using Admin.Services.Profile;
+using Admin.Services.System;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -18,6 +19,7 @@ builder.Services.AddFileReaderService(o => o.UseWasmSharedBuffer = true);
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
+builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 builder.Services.AddScoped<BrandRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<CategoryRepository>();

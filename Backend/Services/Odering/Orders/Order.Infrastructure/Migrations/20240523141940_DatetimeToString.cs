@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -7,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Order.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class DatetimeToString : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,15 +33,20 @@ namespace Order.Infrastructure.Migrations
                     CVV = table.Column<string>(type: "text", nullable: false),
                     PaymentMethod = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateCreated = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateModified = table.Column<string>(type: "text", nullable: false),
                     ModifiedBy = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "AddressLine", "CVV", "CardName", "CardNumber", "City", "CreatedBy", "DateCreated", "DateModified", "EmailAddress", "Expiration", "FirstName", "LastName", "ModifiedBy", "Name", "PaymentMethod", "Province", "Surburb", "TotalPrice", "UserName", "ZipCode" },
+                values: new object[] { 1, "Bahcelievler", "123", "ABCD", "12345", "Roodepoort", "admin", "2024/05/23 16:19:40", "2024/05/23 16:19:40", "mosakoat@mail.com", "2000", "Teboho", "Mosakoa", "admin", "mosakoat@mail.com", 1, "Gauteng", "Willowbrook", 350.0, "admin", "1724" });
         }
 
         /// <inheritdoc />
