@@ -31,3 +31,9 @@ services:
     ports:
       - "80"
 
+  systemapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+

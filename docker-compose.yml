@@ -5,6 +5,15 @@ networks:
     driver: bridge
 
 services:
+  systemdb:
+    container_name: systemdb
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - dev
+
   basketdb:
     container_name: basketdb
     image: redis:alpine
@@ -52,8 +61,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basketdb:6379"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - basketdb
+      - rabbitmq
     networks:
       - dev
 
@@ -66,8 +77,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionString=Host=Shopo_DB;port=5432;database=CatalogDb;username=postgres;password=postgres;Pooling=true;"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - Shopo_DB
+      - rabbitmq
     networks:
       - dev
 
@@ -105,3 +118,16 @@ services:
     ports:
         - "5672:5672"
         - "15672:15672"
+  systemapi:
+    container_name: systemapi
+    image: ${DOCKER_REGISTRY-}systemapi
+    build:
+      context: .
+      dockerfile: Backend/Services/System/SystemAPI/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://systemdb:27017"
+    depends_on:
+      - systemdb
+    networks:
+      - dev
